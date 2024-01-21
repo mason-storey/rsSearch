@@ -1,16 +1,22 @@
+# Defining imports here
 import requests, time, random, os, sys, traceback
 from bs4 import BeautifulSoup
 from datetime import datetime
 
-partNumbers = []
+# Defining methods
+def trimOutputString(string,length):
+    if len(string) > length:
+        return (string[:length-5] + "...").ljust(length)
+    return string.ljust(length)
 
+# Defining variables here
+partNumbers = []
 stockNos = []
 mfrPartNos = []
 brands = []
 failed = []
 prices = []
 quantities = []
-
 
 # Getting file location
 file_path = os.path.dirname(sys.argv[0])
@@ -127,7 +133,7 @@ try:
 
         quant = 1
 
-        print(stockNumber.ljust(10), mfrPartNumber.ljust(15), brand.ljust(15), price.ljust(15), description)
+        print(trimOutputString(stockNumber,10), trimOutputString(mfrPartNumber,15), trimOutputString(brand,15), trimOutputString(price,15), trimOutputString(description,40))
 
         # Outputting results of the search to CSV file
         with open(output_file_name,"a") as file:
@@ -162,3 +168,5 @@ with open(failed_file_name,"w") as failCsv:
         failCsv.write("Part Number, Reason\n")
         for failure in failed:
             failCsv.write(failure.get("partNo") + "," + failure.get("reason") + "\n")
+
+
