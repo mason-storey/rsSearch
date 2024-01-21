@@ -2,7 +2,6 @@ import requests, time, random, os, sys, traceback
 from bs4 import BeautifulSoup
 from datetime import datetime
 
-# partNumbers = ["4420105","1215690","2712536","1234567","1228214","2021209"]
 partNumbers = []
 
 stockNos = []
@@ -136,12 +135,6 @@ try:
                 quant)
             file.write(tempStr)
 
-        # Adding data to csv file 
-        # stockNos.append(stockNumber)
-        # mfrPartNos.append(mfrPartNumber)
-        # brands.append(brand)
-        # prices.append(price)
-        # quantities.append(quant)
 except Exception as e:
     print("fatal error")
     print("recovered - see remaining.csv for unsearched numbers")
@@ -157,22 +150,6 @@ except Exception as e:
     # Creating error log file
     with open("error.log","w") as error:
         traceback.print_exc(file=error)
-
-    
-
-
-
-# Outputting results of the search to CSV file
-# with open("output.csv","w") as file:
-#     for i in range(len(stockNos)):
-#         tempStr = "{},{},{},{},{}\n".format(
-#             stockNos[i],
-#             mfrPartNos[i],
-#             brands[i],
-#             prices[i],
-#             quantities[i])
-#         file.write(tempStr)
-
 
 # Printing failed search numbers
 with open("failed.csv","w") as failCsv:
