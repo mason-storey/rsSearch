@@ -150,8 +150,9 @@ except Exception as e:
     # Creating remaining error CSV files
     with open("remaining.csv","w") as remaining:
         remaining.write("Remaining after fatal error\n")
-        for part in partNumbers:
-            remaining.write(part+"\n")
+        partNumbers.insert(0,part)
+        for partNum in partNumbers:
+            remaining.write(partNum+"\n")
 
     # Creating error log file
     with open("error.log","w") as error:
