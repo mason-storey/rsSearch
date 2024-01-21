@@ -16,7 +16,11 @@ quantities = []
 file_path = os.path.dirname(sys.argv[0])
 file_path_name = file_path + "/" + "rsinput.csv"
 
-output_file_name = datetime.today().strftime('%Y %m %d %H.%M.%S') + " output.csv"
+# Creating file names
+timeStamp = datetime.today().strftime('%Y %m %d %H.%M.%S')
+output_file_name = timeStamp + " output.csv"
+failed_file_name = timeStamp + " failed.csv"
+remaining_file_name = timeStamp + " remaining.csv"
 
 # Reading input file and parsing RS numbers
 with open(file_path_name,"r") as rsInput:
@@ -128,11 +132,11 @@ try:
         # Outputting results of the search to CSV file
         with open(output_file_name,"a") as file:
             tempStr = "{},{},{},{},{}\n".format(
-                stockNumber,
-                mfrPartNumber,
-                brand,
-                price,
-                quant)
+                "\""+stockNumber+"\"",
+                "\""+mfrPartNumber+"\"",
+                "\""+brand+"\"",
+                "\""+price+"\"",
+                "\""+str(quant)+"\"")
             file.write(tempStr)
 
 except Exception as e:
@@ -141,7 +145,7 @@ except Exception as e:
     print("error log produced to error.log - send this file to mason")
 
     # Creating remaining error CSV files
-    with open("remaining.csv","w") as remaining:
+    with open(remaining_file_name,"w") as remaining:
         remaining.write("Remaining after fatal error\n")
         partNumbers.insert(0,part)
         for partNum in partNumbers:
@@ -150,9 +154,11 @@ except Exception as e:
     # Creating error log file
     with open("error.log","w") as error:
         traceback.print_exc(file=error)
+        error.write("="*50)
+        error.write("\nFailed on part number {}".format(part))
 
 # Printing failed search numbers
-with open("failed.csv","w") as failCsv:
+with open(failed_file_name,"w") as failCsv:
         failCsv.write("Part Number, Reason\n")
         for failure in failed:
             failCsv.write(failure.get("partNo") + "," + failure.get("reason") + "\n")
