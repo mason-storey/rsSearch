@@ -1,5 +1,5 @@
 @echo off
 echo Launching python script...
-python %0\..\rsSearch.py
+py -3.11 %0\..\rsSearch.py
 echo Python script finished!
 pause
